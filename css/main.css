@@ -1,0 +1,6 @@
+.leftSideBackground {
+  background: url(../assets/images/bg-pattern.png), url(../assets/images/bg.jpg);
+  background-size: auto, cover;
+  background-repeat: repeat, no-repeat;
+  background-position: auto, center;
+}
