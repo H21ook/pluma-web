@@ -62,15 +62,19 @@
     >
       <img src="../../assets/images/header-logo.svg" alt="logo" class="h-7" />
       <div class="flex items-center gap-2.5">
-        <button
-          class="plumaIconButton bg-gray-100"
-        >
-          <img src="../../assets/icons/bell.svg" alt="notification" class="text-text-secondary size-6"></img>
+        <button class="plumaIconButton bg-gray-100">
+          <img
+            src="../../assets/icons/bell.svg"
+            alt="notification"
+            class="text-text-secondary size-6"
+          />
         </button>
-        <button
-          class="plumaIconButton bg-gray-100"
-        >
-          <img src="../../assets/icons/menu.svg" alt="menu" class="text-text-secondary size-6"></img>
+        <button class="plumaIconButton bg-gray-100">
+          <img
+            src="../../assets/icons/menu.svg"
+            alt="menu"
+            class="text-text-secondary size-6"
+          />
         </button>
       </div>
     </header>
@@ -105,9 +109,15 @@
           >
         </div>
         <div class="w-full max-w-sm space-y-6 lg:space-y-10">
-          <button class="plumaIconButton bg-gray-100">
-              <img src="../../assets/icons/back.svg" alt="menu" class="text-text-secondary size-6"></img>
-          </button>
+          <div class="lg:hidden">
+            <button class="plumaIconButton bg-gray-100">
+              <img
+                src="../../assets/icons/back.svg"
+                alt="menu"
+                class="text-text-secondary size-6"
+              />
+            </button>
+          </div>
 
           <div>
             <div data-tab-index="0" data-tab="tab1" class="flex items-center">
@@ -204,7 +214,7 @@
                   </button>
                   <a
                     href="/web/pages/auth/login.html"
-                    class="text-text-primary hover:underline"
+                    class="lg:hidden text-text-primary hover:underline"
                     >Бүртгэлтэй хаягаар нэвтрэх</a
                   >
                 </div>
@@ -305,11 +315,21 @@
                     гэрээг хүлээн зөвшөөрч байна.</label
                   >
                 </div>
-                <a href="/web/pages/auth/register-complete.html">
-                  <button type="button" class="w-full plumaPrimaryButton mt-2 lg:mt-6">
-                    Бүртгэл дуусгах
-                  </button>
-                </a>
+                <div class="text-center">
+                  <a href="/web/pages/auth/register-complete.html">
+                    <button
+                      type="button"
+                      class="w-full plumaPrimaryButton mt-2 lg:mt-6"
+                    >
+                      Бүртгэл дуусгах
+                    </button>
+                  </a>
+                  <a
+                    href="/web/pages/auth/login.html"
+                    class="lg:hidden text-text-primary hover:underline mt-5"
+                    >Бүртгэлтэй хаягаар нэвтрэх</a
+                  >
+                </div>
               </form>
             </div>
           </div>
