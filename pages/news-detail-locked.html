@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pluma - Нүүр хуудас</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script src="../js/news.js"></script>
+    <script src="../js/main.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #f8a698;
+        --color-primary-foreground: #ffffff;
+        --color-primary-light: #ffa69e;
+        --color-primary-dark: #eb8b80;
+        --color-text-disabled: #919eab;
+        --color-text-primary: #212b36;
+        --color-text-secondary: #637381;
+        --color-divider: #dce4e8;
+        --font-manrope: "Manrope", sans-serif;
+      }
+
+      body {
+        @apply font-manrope text-sm font-normal text-text-primary border-gray-200;
+      }
+
+      .plumaLabel {
+        @apply block text-sm text-text-primary;
+      }
+
+      .plumaInput {
+        @apply px-3 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-light shadow-sm placeholder:text-text-disabled text-sm align-middle;
+      }
+
+      .plumaSearchInput {
+        @apply pr-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-primary-light placeholder:text-text-disabled text-base align-middle bg-gray-100;
+      }
+
+      .plumaButton {
+        @apply font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+      }
+
+      .plumaPrimaryButton {
+        @apply bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer;
+      }
+
+      .plumaCheckbox {
+        @apply appearance-none relative size-5 rounded-sm cursor-pointer border border-gray-200 checked:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-light checked:after:content-[''] checked:after:absolute checked:after:left-[7px] checked:after:top-[3px] checked:after:w-[5px] checked:after:h-[10px] checked:after:border-r-2 checked:after:border-b-2 checked:after:border-solid checked:after:border-primary-foreground checked:after:rotate-45;
+      }
+
+      .plumaIconButton {
+        @apply size-10 rounded-lg flex items-center justify-center transition duration-200 hover:bg-black/10 cursor-pointer;
+      }
+
+      .categoryItem {
+        @apply py-2.5 transition-all duration-200 text-base whitespace-nowrap font-bold cursor-pointer border-b-4;
+      }
+
+      .activeCategoryItem {
+        @apply text-text-primary border-primary;
+      }
+
+      .inactiveCategoryItem {
+        @apply text-text-secondary border-transparent hover:text-text-primary;
+      }
+    </style>
+  </head>
+  <body onload="initMain()">
+    <header class="w-full bg-white">
+      <div class="w-full border-b border-gray-200 hidden md:flex">
+        <div
+          class="container mx-auto px-6 py-3 flex justify-between items-center"
+        >
+          <img
+            src="../assets/images/header-logo2.svg"
+            class="h-[30px]"
+            alt="logo"
+          />
+          <div class="flex items-center gap-6">
+            <div class="relative hidden md:block">
+              <div
+                class="absolute left-0 top-0 bottom-0 flex items-center pl-4"
+              >
+                <img
+                  src="../assets/icons/search.svg"
+                  class="size-[18px]"
+                  alt="search-icon"
+                />
+              </div>
+              <input class="plumaSearchInput pl-10" placeholder="Хайх" />
+            </div>
+            <div>
+              <button class="plumaPrimaryButton mr-1">Бүртгүүлэх</button>
+              <button class="plumaButton border border-gray-200">
+                Нэвтрэх
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-16 md:hidden px-6 flex items-center justify-between">
+        <img src="../assets/images/header-logo.svg" alt="logo" class="h-7" />
+        <div class="flex items-center gap-2.5">
+          <button class="plumaIconButton bg-gray-100">
+            <img
+              src="../assets/icons/bell.svg"
+              alt="notification"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <button id="openDrawer" class="plumaIconButton bg-gray-100">
+            <img
+              src="../assets/icons/menu.svg"
+              alt="menu"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <div
+            id="drawer"
+            class="fixed inset-0 z-[100] w-full left-0 w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300"
+          >
+            <div class="px-6 py-2">
+              <div class="flex justify-end">
+                <button id="closeDrawer" class="plumaIconButton bg-gray-100">
+                  <img
+                    src="../assets/icons/close.svg"
+                    alt="close"
+                    class="size-6"
+                  />
+                </button>
+              </div>
+              <ul class="mt-4 space-y-2">
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../assets/icons/home.svg"
+                    alt="home"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">Home</a>
+                </li>
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../assets/icons/newsfeed.svg"
+                    alt="newsfeed"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">News feed</a>
+                </li>
+              </ul>
+              <button class="plumaPrimaryButton mt-4 w-full">Нэвтрэх</button>
+              <button class="plumaButton border border-gray-200 mt-4 w-full">
+                Бүртгүүлэх
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="container mx-auto p-6 relative">
+        <div class="relative md:hidden mb-10">
+          <div class="absolute left-0 top-0 bottom-0 flex items-center pl-4">
+            <img
+              src="../assets/icons/search.svg"
+              class="size-[18px]"
+              alt="search-icon"
+            />
+          </div>
+          <input class="plumaSearchInput pl-10 w-full" placeholder="Хайх" />
+        </div>
+        <div class="max-w-2xl mb-8 mx-auto">
+          <div>
+            <div class="mb-4">
+              <div class="flex items-center gap-2">
+                <div
+                  class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                >
+                  Хувь хүний хөгжил
+                </div>
+                <div
+                  class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                >
+                  Ёс зүй
+                </div>
+              </div>
+              <h2 class="text-[36px] font-bold my-4">
+                Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+              </h2>
+              <p class="text-base text-text-secondary line-clamp-3">
+                Slow living is a lifestyle trend that's gaining popularity
+                worldwide. It emphasizes the importance of slowing down,
+                savoring the moment, and living with intention.
+              </p>
+              <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                    alt="Author Image"
+                    class="rounded-full"
+                  />
+                  <div>
+                    <p class="text-xs">Б.Батбаяр</p>
+                    <div class="flex items-center gap-2">
+                      <p class="text-xs text-text-secondary">
+                        2024 оны 3 сарын 25
+                      </p>
+                      <div class="size-1 bg-text-secondary rounded-full"></div>
+                      <p class="text-xs text-text-secondary">5 мин</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="plumaPrimaryButton">Follow</button>
+                  <div class="relative inline-block text-left">
+                    <div>
+                      <button
+                        id="dropdownButton"
+                        type="button"
+                        class="plumaIconButton bg-gray-100"
+                      >
+                        <img
+                          src="../assets/icons/more-horizontal.svg"
+                          class="size-5"
+                          alt="more"
+                        />
+                      </button>
+                    </div>
+
+                    <div
+                      id="dropdownMenu"
+                      class="origin-top-right absolute right-0 mt-2 z-10 w-56 rounded-md shadow-lg bg-white ring-1 ring-gray-200 ring-opacity-5 hidden"
+                    >
+                      <div
+                        class="p-2"
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="dropdownButton"
+                      >
+                        <a
+                          href="#"
+                          class="block px-3 py-2 hover:bg-gray-100"
+                          role="menuitem"
+                          >Copy link</a
+                        >
+                        <a
+                          href="#"
+                          class="block px-3 py-2 hover:bg-gray-100"
+                          role="menuitem"
+                          >Save</a
+                        >
+                        <a
+                          href="#"
+                          class="block px-3 py-2 hover:bg-gray-100"
+                          role="menuitem"
+                          >Report</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="News Image"
+                class="w-full"
+              />
+              <div
+                class="xl:absolute xl:-right-8 xl:top-1/2 xl:-translate-1/2 xl:translate-x-full xl:max-w-3xs"
+              >
+                <div class="flex items-center justify-between gap-4 xl:block">
+                  <p class="text-base font-normal">Хуваалцах</p>
+                  <div class="mt-6 mb-4 flex items-center gap-2">
+                    <button
+                      class="rounded-full border border-gray-200 size-9 flex items-center justify-center"
+                    >
+                      <img
+                        src="../assets/icons/ln.svg"
+                        alt="linkedin"
+                        class="size-[22px]"
+                      />
+                    </button>
+                    <button
+                      class="rounded-full border border-gray-200 size-9 flex items-center justify-center"
+                    >
+                      <img
+                        src="../assets/icons/x.svg"
+                        alt="X twitter"
+                        class="size-[22px]"
+                      />
+                    </button>
+                    <button
+                      class="rounded-full border border-gray-200 size-9 flex items-center justify-center"
+                    >
+                      <img
+                        src="../assets/icons/fb.svg"
+                        alt="facebook"
+                        class="size-[22px]"
+                      />
+                    </button>
+                    <button
+                      class="rounded-full border border-gray-200 size-9 flex items-center justify-center"
+                    >
+                      <img
+                        src="../assets/icons/link.svg"
+                        alt="link"
+                        class="size-[22px]"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <button
+                  class="plumaPrimaryButton w-full flex items-center gap-1 justify-center"
+                >
+                  <img src="../assets/icons/gift.svg" alt="gift" />
+                  Энэ нийтлэлийг бэлэглэх
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <div class="space-y-8">
+                <p class="text-xs lg:text-sm text-justify">
+                  Цахим сэтгүүл зүйн мэргэжлийн ууган байгууллага болох Монголын
+                  Сайтын холбоо 10 жилийнхээ ойн хүрээнд “Цахим сэтгүүл зүй ба
+                  Мэргэжлийн ёс зүй” сэдэвт сургалтыг Монголын Сэтгүүлчдийн
+                  нэгдсэн эвлэл, Хэвлэл мэдээллийн зөвлөл, Монгол Улсын Их
+                  сургуулийн Сэтгүүл зүйн тэнхим, Хүмүүнлэгийн ухааны Их
+                  сургуулийн Сэтгүүл зүйн тэнхимтэй хамтран зохион байгуулах гэж
+                  байна.
+                </p>
+                <p class="text-xs lg:text-sm text-justify">
+                  Монголын Сайтын холбоо
+                  <a href="#" class="font-semibold underline"
+                    >Монголын Сэтгүүлдчийн нэгдсэн эвлэл</a
+                  >, Хэвлэл мэдээллийн зөвлөл болон сэтгүүлч бэлтгэж байгаа
+                  боловсролын байгууллагатай энэхүү сургалтыг үе шаттайгаар, үнэ
+                  төлбөргүй зохион байгуулах бөгөөд сургалтад хамрагдсан
+                  сэтгүүлчдэд батламж олгоно. Сургалтын үеэр сэтгүүлчид хуульч,
+                  өмгөөлөгчдөөс хууль зүйн зөвлөгөө авах, шаардлагатай
+                  тохиолдолд үнэ төлбөргүйгээр өмгөөлөгч авах боломжтой.
+                </p>
+              </div>
+              <div class="flex justify-between items-center mt-8">
+                <div class="rounded-md bg-gray-100 px-2 py-1 flex items-center">
+                  <img
+                    src="../assets/icons/heart.svg"
+                    class="size-5 cursor-pointer"
+                    alt="heart"
+                  />
+                  <span class="text-text-secondary ml-1">123</span>
+                </div>
+                <div class="rounded-md bg-gray-100 px-2 py-1 flex items-center">
+                  <img
+                    src="../assets/icons/chat.svg"
+                    class="size-5 cursor-pointer"
+                    alt="chat"
+                  />
+                  <span class="text-text-secondary ml-1">123</span>
+                </div>
+                <div class="rounded-md bg-gray-100 px-2 py-1 flex items-center">
+                  <img
+                    src="../assets/icons/bookmark.svg"
+                    class="size-5 cursor-pointer"
+                    alt="bookmark"
+                  />
+                  <span class="text-text-secondary ml-1">123</span>
+                </div>
+                <div class="rounded-md bg-gray-100 px-2 py-1 flex items-center">
+                  <img
+                    src="../assets/icons/upload.svg"
+                    class="size-5 cursor-pointer"
+                    alt="upload"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h-[150px]"></div>
+        <div
+          class="absolute bottom-0 left-0 w-full px-6 bg-gradient-to-t from-white from-80% via-90% via-white/80 to-transparent to-100% pt-28 pb-16"
+        >
+          <div
+            class="max-w-full md:max-w-sm mx-auto flex flex-col items-center gap-2"
+          >
+            <h3 class="text-xl font-bold text-center">
+              Энэ нийтлэл нь төлбөртэй уншигчдад зориулагдсан болно
+            </h3>
+            <p class="text-text-secondary text-center">
+              Хэрэв та Pluma-д шинээр орсон бол энэ нийтлэлийг уншихын тулд эрх
+              авна уу.
+            </p>
+
+            <div
+              id="modal"
+              class="hidden fixed inset-0 bg-black/50 flex items-center justify-center no-scrollbar"
+            >
+              <div
+                class="relative bg-white px-6 pt-6 pb-12 md:pt-12 rounded-lg shadow-md w-full mx-4 md:w-md"
+              >
+                <div class="flex justify-end mb-2 md:hidden">
+                  <button id="closeModal" class="plumaIconButton bg-gray-100">
+                    <img
+                      src="../assets/icons/close.svg"
+                      class="size-5"
+                      alt="close"
+                    />
+                  </button>
+                </div>
+                <div class="w-full flex flex-col items-center gap-2">
+                  <h3 class="text-xl font-bold text-center">
+                    Энэ нийтлэл нь төлбөртэй уншигчдад зориулагдсан болно
+                  </h3>
+                  <p class="text-text-secondary text-center">
+                    Хэрэв та Pluma-д шинээр орсон бол энэ нийтлэлийг уншихын
+                    тулд эрх авна уу.
+                  </p>
+                  <button class="plumaPrimaryButton mt-6 w-full">
+                    Эрх худалдаж авах
+                  </button>
+                  <button
+                    class="plumaButton border border-gray-200 mt-2 w-full"
+                  >
+                    Нэвтрэх
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button id="openModal" class="plumaPrimaryButton my-6">
+              Эрх худалдаж авах
+            </button>
+            <p>
+              Бүртгэлтэй юу?
+              <a href="/web//pages/auth/login.html" class="font-bold underline">
+                Нэвтрэх
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

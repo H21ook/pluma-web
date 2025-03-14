@@ -3,7 +3,631 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Pluma - Нүүр хуудас</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script src="../js/main.js"></script>
+    <script src="../js/home.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #f8a698;
+        --color-primary-foreground: #ffffff;
+        --color-primary-light: #ffa69e;
+        --color-primary-dark: #eb8b80;
+        --color-text-disabled: #919eab;
+        --color-text-primary: #212b36;
+        --color-text-secondary: #637381;
+        --color-divider: #dce4e8;
+        --font-manrope: "Manrope", sans-serif;
+      }
+
+      body {
+        @apply font-manrope text-sm font-normal text-text-primary border-gray-200;
+      }
+
+      .plumaLabel {
+        @apply block text-sm text-text-primary;
+      }
+
+      .plumaInput {
+        @apply px-3 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-light shadow-sm placeholder:text-text-disabled text-sm align-middle;
+      }
+
+      .plumaSearchInput {
+        @apply pr-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-primary-light placeholder:text-text-disabled text-base align-middle bg-gray-100;
+      }
+
+      .plumaButton {
+        @apply font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+      }
+
+      .plumaPrimaryButton {
+        @apply bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2.5 px-4 rounded-md transition duration-200;
+      }
+
+      .plumaCheckbox {
+        @apply appearance-none relative size-5 rounded-sm cursor-pointer border border-gray-200 checked:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-light checked:after:content-[''] checked:after:absolute checked:after:left-[7px] checked:after:top-[3px] checked:after:w-[5px] checked:after:h-[10px] checked:after:border-r-2 checked:after:border-b-2 checked:after:border-solid checked:after:border-primary-foreground checked:after:rotate-45;
+      }
+
+      .plumaIconButton {
+        @apply size-10 rounded-lg flex items-center justify-center transition duration-200 hover:bg-black/10;
+      }
+
+      .categoryItem {
+        @apply py-2.5 transition-all duration-200 text-base whitespace-nowrap font-bold cursor-pointer border-b-4;
+      }
+
+      .activeCategoryItem {
+        @apply text-text-primary border-primary;
+      }
+
+      .inactiveCategoryItem {
+        @apply text-text-secondary border-transparent hover:text-text-primary;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <header class="w-full bg-white">
+      <div class="w-full border-b border-gray-200 hidden md:flex">
+        <div
+          class="container mx-auto px-6 py-3 flex justify-between items-center"
+        >
+          <img
+            src="../assets/images/header-logo2.svg"
+            class="h-[30px]"
+            alt="logo"
+          />
+          <div class="flex items-center gap-6">
+            <div class="relative hidden md:block">
+              <div
+                class="absolute left-0 top-0 bottom-0 flex items-center pl-4"
+              >
+                <img
+                  src="../assets/icons/search.svg"
+                  class="size-[18px]"
+                  alt="search-icon"
+                />
+              </div>
+              <input class="plumaSearchInput pl-10" placeholder="Хайх" />
+            </div>
+            <div>
+              <button class="plumaPrimaryButton mr-1">Бүртгүүлэх</button>
+              <button class="plumaButton border border-gray-200">
+                Нэвтрэх
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-16 md:hidden px-6 flex items-center justify-between">
+        <img src="../assets/images/header-logo.svg" alt="logo" class="h-7" />
+        <div class="flex items-center gap-2.5">
+          <button class="plumaIconButton bg-gray-100">
+            <img
+              src="../assets/icons/bell.svg"
+              alt="notification"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <button class="plumaIconButton bg-gray-100">
+            <img
+              src="../assets/icons/menu.svg"
+              alt="menu"
+              class="text-text-secondary size-6"
+            />
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+      <div class="relative md:hidden mb-10">
+        <div class="absolute left-0 top-0 bottom-0 flex items-center pl-4">
+          <img
+            src="../assets/icons/search.svg"
+            class="size-[18px]"
+            alt="search-icon"
+          />
+        </div>
+        <input class="plumaSearchInput pl-10 w-full" placeholder="Хайх" />
+      </div>
+      <div class="relative border-b-2 border-gray-200">
+        <button
+          id="categoryLeftButton"
+          class="absolute transition-all duration-200 top-1/2 -translate-y-1/2 left-0 flex items-center bg-white px-2 cursor-pointer size-10 invisible"
+          onclick="leftScroll()"
+        >
+          <img
+            src="../assets/icons/arrow-right.svg"
+            class="size-4 rotate-180"
+            alt="arrow-left"
+          />
+        </button>
+        <button
+          id="categoryRightButton"
+          class="absolute transition-all duration-200 top-1/2 -translate-y-1/2 right-0 flex items-center bg-white px-2 cursor-pointer size-10 invisible"
+          onclick="rightScroll()"
+        >
+          <img
+            src="../assets/icons/arrow-right.svg"
+            class="size-4"
+            alt="arrow-right"
+          />
+        </button>
+        <ul
+          class="flex gap-8 overflow-hidden mb-[-2px] items-center"
+          id="categoryList"
+        >
+          <li
+            class="categoryItem activeCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            For you
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Парламент
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Засгийн газар
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Хууль, эрх зүй
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Нийгэм, эдийн засаг
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Энтертаймент
+          </li>
+          <li
+            class="categoryItem inactiveCategoryItem"
+            onclick="selectCategory(event)"
+          >
+            Олон улсын байдал
+          </li>
+        </ul>
+      </div>
+      <section class="flex gap-8 my-12">
+        <div class="flex-1 space-y-12">
+          <!-- news latest  -->
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="News Image"
+              class="w-full rounded-lg"
+            />
+            <div class="mt-4">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <a href="/web/pages/news-detail.html">
+                <h2 class="text-xl lg:text-2xl font-bold mt-3 mb-2">
+                  Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+                </h2>
+              </a>
+              <p class="text-xs lg:text-sm text-text-secondary line-clamp-3">
+                Slow living is a lifestyle trend that's gaining popularity
+                worldwide. It emphasizes the importance of slowing down,
+                savoring the moment, and living with intention. Join us as we
+                explore this exciting trend and discover how you can incorporate
+                it into your own life. moment, and living with intention. Join
+                us as we explore this exciting trend and discover how you can
+                incorporate it into your...
+              </p>
+              <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-2">
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Хувь хүний хөгжил
+                  </div>
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Ёс зүй
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <img
+                    src="../assets/icons/bookmark.svg"
+                    class="size-5 cursor-pointer"
+                    alt="bookmark"
+                  />
+                  <img
+                    src="../assets/icons/more-horizontal.svg"
+                    class="size-5 cursor-pointer"
+                    alt="more"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- news grid list  -->
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 mt-4">
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1554177255-61502b352de3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="News Image"
+                class="w-full rounded-lg object-cover aspect-video"
+              />
+              <div class="mt-4">
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                    alt="Author Image"
+                    class="rounded-full"
+                  />
+                  <p class="text-xs">Б.Батбаяр</p>
+                  <span
+                    class="size-1 bg-text-secondary rounded-full ml-2"
+                  ></span>
+                  <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+                </div>
+                <h2 class="text-xl lg:text-2xl font-bold mt-3 mb-2">
+                  Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+                </h2>
+                <p class="text-xs lg:text-sm text-text-secondary line-clamp-3">
+                  Slow living is a lifestyle trend that's gaining popularity
+                  worldwide. It emphasizes the importance of slowing down,
+                  savoring the moment, and living with intention. Join us as we
+                  explore this exciting trend and discover how you can
+                  incorporate it into your own life. moment, and living with
+                  intention. Join us as we explore this exciting trend and
+                  discover how you can incorporate it into your...
+                </p>
+                <div class="flex justify-between items-center mt-4">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                    >
+                      Хувь хүний хөгжил
+                    </div>
+                    <div
+                      class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                    >
+                      Ёс зүй
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="../assets/icons/bookmark.svg"
+                      class="size-5 cursor-pointer"
+                      alt="bookmark"
+                    />
+                    <img
+                      src="../assets/icons/more-horizontal.svg"
+                      class="size-5 cursor-pointer"
+                      alt="more"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1616596871445-bb8290a7a2c2?q=80&w=2007&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="News Image"
+                class="w-full rounded-lg object-cover aspect-video"
+              />
+              <div class="mt-5">
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                    alt="Author Image"
+                    class="rounded-full"
+                  />
+                  <p class="text-xs">Б.Батбаяр</p>
+                  <span
+                    class="size-1 bg-text-secondary rounded-full ml-2"
+                  ></span>
+                  <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+                </div>
+                <h2 class="text-xl lg:text-2xl font-bold mt-3 mb-2">
+                  Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+                </h2>
+                <p class="text-xs lg:text-sm text-text-secondary line-clamp-3">
+                  Slow living is a lifestyle trend that's gaining popularity
+                  worldwide. It emphasizes the importance of slowing down,
+                  savoring the moment, and living with intention. Join us as we
+                  explore this exciting trend and discover how you can
+                  incorporate it into your own life. moment, and living with
+                  intention. Join us as we explore this exciting trend and
+                  discover how you can incorporate it into your...
+                </p>
+                <div class="flex justify-between items-center mt-4">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                    >
+                      Хувь хүний хөгжил
+                    </div>
+                    <div
+                      class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                    >
+                      Ёс зүй
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="../assets/icons/bookmark.svg"
+                      class="size-5 cursor-pointer"
+                      alt="bookmark"
+                    />
+                    <img
+                      src="../assets/icons/more-horizontal.svg"
+                      class="size-5 cursor-pointer"
+                      alt="more"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- news line list  -->
+          <div>
+            <div class="border-b border-gray-200 py-4">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <div
+                class="flex gap-8 items-center lg:items-start justify-between mt-3"
+              >
+                <div class="flex-1">
+                  <h2
+                    class="text-lg md:text-xl lg:text-2xl font-bold mb-2 line-clamp-2"
+                  >
+                    Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+                  </h2>
+                  <p
+                    class="text-xs lg:text-sm text-text-secondary line-clamp-3"
+                  >
+                    Slow living is a lifestyle trend that's gaining popularity
+                    worldwide. It emphasizes the importance of slowing down,
+                    savoring the moment, and living with intention. Join us as
+                    we explore this exciting trend and discover how you can
+                    incorporate it into your own life. moment, and living with
+                    intention. Join us as we explore this exciting trend and
+                    discover how you can incorporate it into your...
+                  </p>
+                </div>
+                <img
+                  src="https://images.unsplash.com/photo-1592503254549-d83d24a4dfab?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="News Image"
+                  class="object-cover max-w-1/3 lg:max-w-[300px] rounded-lg aspect-video"
+                />
+              </div>
+              <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-2">
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Хувь хүний хөгжил
+                  </div>
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Ёс зүй
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <img
+                    src="../assets/icons/bookmark.svg"
+                    class="size-5 cursor-pointer"
+                    alt="bookmark"
+                  />
+                  <img
+                    src="../assets/icons/more-horizontal.svg"
+                    class="size-5 cursor-pointer"
+                    alt="more"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="border-b border-gray-200 py-4">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <div
+                class="flex gap-8 items-center lg:items-start justify-between mt-3"
+              >
+                <div class="flex-1">
+                  <h2
+                    class="text-lg md:text-xl lg:text-2xl font-bold mb-2 line-clamp-2"
+                  >
+                    Цахим сэтгүүл зүй ба мэргэжлийн ёс зүй
+                  </h2>
+                  <p
+                    class="text-xs lg:text-sm text-text-secondary line-clamp-3"
+                  >
+                    Slow living is a lifestyle trend that's gaining popularity
+                    worldwide. It emphasizes the importance of slowing down,
+                    savoring the moment, and living with intention. Join us as
+                    we explore this exciting trend and discover how you can
+                    incorporate it into your own life. moment, and living with
+                    intention. Join us as we explore this exciting trend and
+                    discover how you can incorporate it into your...
+                  </p>
+                </div>
+                <img
+                  src="https://images.unsplash.com/photo-1573706376056-55f27105ff17?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="News Image"
+                  class="object-cover max-w-1/3 lg:max-w-[300px] rounded-lg aspect-video"
+                />
+              </div>
+              <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-2">
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Хувь хүний хөгжил
+                  </div>
+                  <div
+                    class="rounded-sm bg-primary/50 py-1 lg:py-2 px-3 uppercase text-[10px]"
+                  >
+                    Ёс зүй
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <img
+                    src="../assets/icons/bookmark.svg"
+                    class="size-5 cursor-pointer"
+                    alt="bookmark"
+                  />
+                  <img
+                    src="../assets/icons/more-horizontal.svg"
+                    class="size-5 cursor-pointer"
+                    alt="more"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- News feed -->
+        <aside class="hidden w-[300px] md:block">
+          <div class="flex justify-between items-center mb-5">
+            <h3 class="text-xl font-semibold">News Feed</h3>
+            <button
+              class="py-1.5 px-3 rounded-sm border border-gray-200 text-xs text-text-secondary transition-all duration-200 hover:bg-black/5"
+            >
+              Бүгдийг харах
+            </button>
+          </div>
+          <ul class="space-y-4">
+            <li
+              class="border border-gray-200 p-4 rounded-lg flex flex-col gap-3"
+            >
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <p class="text-xs">
+                Хүмүүнлэгийн ухааны Их сургуулийн Сэтгүүл зүйн тэнхимтэй хамтран
+                зохион байгуулах гэж байна.
+              </p>
+            </li>
+            <li
+              class="border border-gray-200 p-4 rounded-lg flex flex-col gap-3"
+            >
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <p class="text-xs">
+                Цахим сэтгүүл зүйн мэргэжлийн ууган байгууллага болох Монголын
+                Сайтын холбоо 10 жилийнхээ ойн хүрээнд “Цахим сэтгүүл зүй ба
+                Мэргэжлийн ёс зүй” сэдэвт сургалтыг Монголын Сэтгүүлчдийн
+                нэгдсэн эвлэл, Хэвлэл мэдээллийн зөвлөл, Монгол Улсын Их
+                сургуулийн Сэтгүүл зүйн тэнхим, Хүмүүнлэгийн ухааны Их
+                сургуулийн Сэтгүүл зүйн тэнхимтэй хамтран зохион байгуулах гэж
+                байна.
+              </p>
+            </li>
+            <li
+              class="border border-gray-200 p-4 rounded-lg flex flex-col gap-3"
+            >
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://images.unsplash.com/profile-1584566982645-74be0a12137eimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  alt="Author Image"
+                  class="rounded-full"
+                />
+                <p class="text-xs">Б.Батбаяр</p>
+                <span class="size-1 bg-text-secondary rounded-full ml-2"></span>
+                <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              </div>
+              <p class="text-xs">
+                Хүмүүнлэгийн ухааны Их сургуулийн Сэтгүүл зүйн тэнхимтэй хамтран
+                зохион байгуулах гэж байна.
+              </p>
+              <img
+                src="https://images.unsplash.com/photo-1683721003111-070bcc053d8b?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="News Image"
+                class="object-cover w-full rounded-lg aspect-video"
+              />
+            </li>
+
+            <li class="py-4"></li>
+            <li class="px-4 rounded-lg flex flex-col gap-3">
+              <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              <p class="text-[18px] font-bold leading-[30px]">
+                World Leaders Gather for Climate Summit in Paris
+              </p>
+            </li>
+            <li class="px-4 rounded-lg flex flex-col gap-3">
+              <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              <p class="text-[18px] font-bold leading-[30px]">
+                The MMA Fashion Week 2023: Karen Delancy Launches New Fashion
+                Line
+              </p>
+            </li>
+            <li class="px-4 rounded-lg flex flex-col gap-3">
+              <p class="text-xs text-text-secondary">2024 оны 3 сарын 25</p>
+              <p class="text-[18px] font-bold leading-[30px]">
+                Luden Administration to Introduce Climate Change Legislation
+              </p>
+            </li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+  </body>
 </html>
