@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pluma - Нүүр хуудас</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <script src="../../js/profile.js"></script>
+    <script src="../../js/main.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #f8a698;
+        --color-primary-foreground: #ffffff;
+        --color-primary-light: #ffa69e;
+        --color-primary-dark: #eb8b80;
+        --color-text-disabled: #919eab;
+        --color-text-primary: #212b36;
+        --color-text-secondary: #637381;
+        --color-divider: #dce4e8;
+        --font-manrope: "Manrope", sans-serif;
+      }
+
+      body {
+        @apply font-manrope text-sm font-normal text-text-primary border-gray-200;
+      }
+
+      .plumaLabel {
+        @apply block text-sm text-text-primary;
+      }
+
+      .plumaInput {
+        @apply px-3 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-light shadow-sm placeholder:text-text-disabled text-sm align-middle;
+      }
+
+      .plumaSearchInput {
+        @apply pr-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-primary-light placeholder:text-text-disabled text-base align-middle bg-gray-100;
+      }
+
+      .plumaButton {
+        @apply font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+      }
+
+      .plumaPrimaryButton {
+        @apply bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer;
+      }
+
+      .plumaCheckbox {
+        @apply appearance-none relative size-5 rounded-sm cursor-pointer border border-gray-200 checked:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-light checked:after:content-[''] checked:after:absolute checked:after:left-[7px] checked:after:top-[3px] checked:after:w-[5px] checked:after:h-[10px] checked:after:border-r-2 checked:after:border-b-2 checked:after:border-solid checked:after:border-primary-foreground checked:after:rotate-45;
+      }
+
+      .plumaIconButton {
+        @apply size-10 rounded-lg flex items-center justify-center transition duration-200 hover:bg-black/10 cursor-pointer;
+      }
+
+      .categoryItem {
+        @apply py-2.5 transition-all duration-200 text-base whitespace-nowrap font-bold cursor-pointer border-b-4;
+      }
+
+      .activeCategoryItem {
+        @apply text-text-primary border-primary;
+      }
+
+      .inactiveCategoryItem {
+        @apply text-text-secondary border-transparent hover:text-text-primary;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <header class="w-full bg-white">
+      <div class="w-full border-b border-gray-200 hidden md:flex">
+        <div
+          class="container mx-auto px-6 py-3 flex justify-between items-center"
+        >
+          <img
+            src="../../assets/images/header-logo2.svg"
+            class="h-[30px]"
+            alt="logo"
+          />
+          <div class="flex items-center gap-6">
+            <div class="relative hidden md:block">
+              <div
+                class="absolute left-0 top-0 bottom-0 flex items-center pl-4"
+              >
+                <img
+                  src="../../assets/icons/search.svg"
+                  class="size-[18px]"
+                  alt="search-icon"
+                />
+              </div>
+              <input class="plumaSearchInput pl-10" placeholder="Хайх" />
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Админ</p>
+                </div>
+                <svg
+                  class="-mr-1 ml-2 h-5 w-5 text-text-secondary cursor-pointer"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-16 md:hidden px-6 flex items-center justify-between">
+        <img src="../../assets/images/header-logo.svg" alt="logo" class="h-7" />
+        <div class="flex items-center gap-2.5">
+          <button class="plumaIconButton bg-gray-100">
+            <img
+              src="../../assets/icons/bell.svg"
+              alt="notification"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <button id="openDrawer" class="plumaIconButton bg-gray-100">
+            <img
+              src="../../assets/icons/menu.svg"
+              alt="menu"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <div
+            id="drawer"
+            class="fixed inset-0 z-[100] w-full left-0 w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300"
+          >
+            <div class="px-6 py-2">
+              <div class="flex justify-between items-center mt-8">
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                    alt="Author Image"
+                    class="rounded-full size-10"
+                  />
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <p class="font-bold">Б.Батбаяр</p>
+                    </div>
+                    <p class="text-xs text-text-secondary">Админ</p>
+                  </div>
+                </div>
+                <button id="closeDrawer" class="plumaIconButton bg-gray-100">
+                  <img
+                    src="../../assets/icons/close.svg"
+                    alt="close"
+                    class="size-6"
+                  />
+                </button>
+              </div>
+
+              <ul class="mt-4 space-y-2">
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../../assets/icons/home.svg"
+                    alt="home"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">Home</a>
+                </li>
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../../assets/icons/newsfeed.svg"
+                    alt="newsfeed"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">News feed</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="py-10 px-6">
+      <div class="max-w-lg mx-auto space-y-8">
+        <div class="flex gap-4">
+          <p>Бат-Өлзий Батбаяр</p>
+          <img alt="arrow-right" src="../../assets/icons/arrow-right.svg" />
+          <p class="text-text-secondary">Followers</p>
+        </div>
+
+        <button class="plumaIconButton bg-gray-100">
+          <img src="../../assets/icons/back.svg" alt="back" class="size-6" />
+        </button>
+        <div>
+          <h1 class="text-2xl mb-8">25 followers</h1>
+
+          <ul class="space-y-8">
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaPrimaryButton">Following</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaButton border border-gray-200">Follow</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaButton border border-gray-200">Follow</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaButton border border-gray-200">Follow</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaButton border border-gray-200">Follow</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaPrimaryButton">Following</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaPrimaryButton">Following</button>
+            </li>
+            <li class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Хэвлэлийн хүрээлэн</p>
+                </div>
+              </div>
+              <button class="plumaButton border border-gray-200">Follow</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

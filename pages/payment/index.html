@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pluma - Нүүр хуудас</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/js-datepicker@5.18.4/dist/datepicker.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/js-datepicker@5.18.4/dist/datepicker.min.js"></script>
+
+    <link rel="stylesheet" href="../../css/main.css" />
+    <script src="../../js/payment.js"></script>
+    <script src="../../js/main.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #f8a698;
+        --color-primary-foreground: #ffffff;
+        --color-primary-light: #ffa69e;
+        --color-primary-dark: #eb8b80;
+        --color-text-disabled: #919eab;
+        --color-text-primary: #212b36;
+        --color-text-secondary: #637381;
+        --color-divider: #dce4e8;
+        --font-manrope: "Manrope", sans-serif;
+      }
+
+      body {
+        @apply font-manrope text-sm font-normal text-text-primary border-gray-200;
+      }
+
+      .plumaLabel {
+        @apply block text-sm text-text-primary;
+      }
+
+      .plumaInput {
+        @apply px-3 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-light shadow-sm placeholder:text-text-disabled text-sm align-middle;
+      }
+
+      .plumaSearchInput {
+        @apply pr-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-primary-light placeholder:text-text-disabled text-base align-middle bg-gray-100;
+      }
+
+      .plumaButton {
+        @apply font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+      }
+
+      .plumaPrimaryGhostButton {
+        @apply text-primary font-bold text-sm px-1.5 py-2 rounded-md hover:bg-primary/20;
+      }
+      .plumaPrimaryButton {
+        @apply bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2.5 px-4 rounded-md transition duration-200 cursor-pointer;
+      }
+
+      .plumaCheckbox {
+        @apply appearance-none relative size-5 rounded-sm cursor-pointer border border-gray-200 checked:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-light checked:after:content-[''] checked:after:absolute checked:after:left-[7px] checked:after:top-[3px] checked:after:w-[5px] checked:after:h-[10px] checked:after:border-r-2 checked:after:border-b-2 checked:after:border-solid checked:after:border-primary-foreground checked:after:rotate-45;
+      }
+
+      .plumaSwitch {
+        @apply appearance-none relative size-5 rounded-sm cursor-pointer border border-gray-200 checked:bg-primary focus:outline-none focus:ring-1 focus:ring-primary-light checked:after:content-[''] checked:after:absolute checked:after:left-[7px] checked:after:top-[3px] checked:after:w-[5px] checked:after:h-[10px] checked:after:border-r-2 checked:after:border-b-2 checked:after:border-solid checked:after:border-primary-foreground checked:after:rotate-45;
+      }
+
+      .plumaIconButton {
+        @apply size-10 rounded-lg flex items-center justify-center transition duration-200 hover:bg-black/10 cursor-pointer;
+      }
+
+      .categoryItem {
+        @apply py-2.5 transition-all duration-200 text-base whitespace-nowrap font-bold cursor-pointer border-b-4;
+      }
+
+      .activeCategoryItem {
+        @apply text-text-primary border-primary;
+      }
+
+      .inactiveCategoryItem {
+        @apply text-text-secondary border-transparent hover:text-text-primary;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <header class="w-full bg-white">
+      <div class="w-full border-b border-gray-200 hidden md:flex">
+        <div
+          class="container mx-auto px-6 py-3 flex justify-between items-center"
+        >
+          <img
+            src="../../assets/images/header-logo2.svg"
+            class="h-[30px]"
+            alt="logo"
+          />
+          <div class="flex items-center gap-4">
+            <button class="plumaIconButton bg-gray-100">
+              <img
+                src="../../assets/icons/bell.svg"
+                alt="notification"
+                class="text-text-secondary size-6"
+              />
+            </button>
+            <button class="plumaPrimaryButton">Upgrade</button>
+            <div>
+              <div class="flex items-center gap-2">
+                <img
+                  src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                  alt="Author Image"
+                  class="rounded-full size-10"
+                />
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="font-bold">Б.Батбаяр</p>
+                  </div>
+                  <p class="text-xs text-text-secondary">Админ</p>
+                </div>
+                <svg
+                  class="-mr-1 ml-2 h-5 w-5 text-text-secondary cursor-pointer"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-16 md:hidden px-6 flex items-center justify-between">
+        <img src="../../assets/images/header-logo.svg" alt="logo" class="h-7" />
+        <div class="flex items-center gap-2.5">
+          <button class="plumaIconButton bg-gray-100">
+            <img
+              src="../../assets/icons/bell.svg"
+              alt="notification"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <button id="openDrawer" class="plumaIconButton bg-gray-100">
+            <img
+              src="../../assets/icons/menu.svg"
+              alt="menu"
+              class="text-text-secondary size-6"
+            />
+          </button>
+          <div
+            id="drawer"
+            class="fixed inset-0 z-[100] w-full left-0 w-64 bg-white shadow-md transform translate-x-full transition-transform duration-300"
+          >
+            <div class="px-6 py-2">
+              <div class="flex justify-between items-center mt-8">
+                <div class="flex items-center gap-2">
+                  <img
+                    src="https://framerusercontent.com/images/gMHfU4xaMiq7jHpCpTNtqnK6ulQ.jpg"
+                    alt="Author Image"
+                    class="rounded-full size-10"
+                  />
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <p class="font-bold">Б.Батбаяр</p>
+                    </div>
+                    <p class="text-xs text-text-secondary">Админ</p>
+                  </div>
+                </div>
+                <button id="closeDrawer" class="plumaIconButton bg-gray-100">
+                  <img
+                    src="../../assets/icons/close.svg"
+                    alt="close"
+                    class="size-6"
+                  />
+                </button>
+              </div>
+
+              <ul class="mt-4 space-y-2">
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../../assets/icons/home.svg"
+                    alt="home"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">Home</a>
+                </li>
+                <li
+                  class="flex items-center gap-2 hover:bg-gray-100 rounded-md px-1"
+                  onclick="closeDrawer()"
+                >
+                  <img
+                    src="../../assets/icons/newsfeed.svg"
+                    alt="newsfeed"
+                    class="size-6"
+                  />
+                  <a href="#" class="block py-2.5">News feed</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+      <div class="max-w-7xl mx-auto py-10 space-y-8">
+        <button class="plumaIconButton bg-gray-100">
+          <img
+            src="../../assets/icons/close.svg"
+            alt="close"
+            class="text-text-secondary size-6"
+          />
+        </button>
+        <div class="space-y-8">
+          <h1 class="text-3xl font-bold text-center">
+            Pricing designed for scale
+          </h1>
+          <div>
+            <div
+              id="tabButtons"
+              data-value="yearly"
+              class="relative z-0 w-[300px] mx-auto p-1 bg-[#F3F4F6] rounded-md flex"
+            >
+              <button
+                id="paymentMonthly"
+                class="planButton relative flex-1 rounded-md px-5 py-2 font-normal cursor-pointer after:content-[''] after:hidden after:absolute after:z-[-1] after:inset-0 after:w-full after:rounded-md after:bg-white after:transition-all after:duration-200"
+              >
+                Bill monthly
+              </button>
+              <button
+                id="paymentYearly"
+                class="planButton flex-1 rounded-md px-5 py-2 font-normal cursor-pointer flex items-center gap-1"
+              >
+                Bill yearly
+                <div
+                  class="text-xs bg-[#F0FDF4] text-[#15803D] font-normal rounded-full px-2 py-1"
+                >
+                  20%
+                </div>
+              </button>
+            </div>
+
+            <div id="tabContents" class="mt-16">
+              <div data-value="monthly" class="hidden">
+                <div
+                  class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8"
+                >
+                  <div class="border border-gray-200 rounded-lg p-5">
+                    <p class="text-[#B0766C] text-base mb-2">Basic</p>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮20,000
+                      </p>
+                      <p class="text-sm font-normal text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Тухайн сард платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          2 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/markx.svg"
+                          alt="markx"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Tortor interdum condimentum nunc molestie quam lectus.
+                        </p>
+                      </li>
+                    </ul>
+                    <button
+                      class="plumaButton mt-5 bg-[#FEF6F5] text-primary w-full"
+                    >
+                      Get started
+                    </button>
+                  </div>
+
+                  <div class="border-3 border-primary rounded-lg p-5">
+                    <div class="flex items-center justify-between">
+                      <p class="text-[#B0766C] text-base mb-2">Team</p>
+                      <p
+                        class="px-2 py-0.5 text-base text-[#B0766C] rounded-full bg-[#FEF6F5]"
+                      >
+                        Most popular
+                      </p>
+                    </div>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮40,000
+                      </p>
+                      <p class="text-sm text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Улирлын турш платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 3 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Tortor interdum condimentum nunc molestie quam lectus.
+                        </p>
+                      </li>
+                    </ul>
+                    <button class="plumaPrimaryButton mt-5 w-full">
+                      Get started
+                    </button>
+                  </div>
+                  <div class="border border-gray-200 rounded-lg p-5">
+                    <p class="text-[#B0766C] text-base mb-2">Premium</p>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮120,000
+                      </p>
+                      <p class="text-sm text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Жилийн турш платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 5 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/markx.svg"
+                          alt="markx"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 5 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                    </ul>
+                    <button
+                      class="plumaButton mt-5 bg-[#FEF6F5] text-primary w-full"
+                    >
+                      Get started
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div data-value="yearly" class="hidden">
+                <div
+                  class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 lg:gap-8"
+                >
+                  <div class="border border-gray-200 rounded-lg p-5">
+                    <p class="text-[#B0766C] text-base mb-2">Basic</p>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮15,000
+                      </p>
+                      <p class="text-sm font-normal text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Тухайн сард платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          2 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/markx.svg"
+                          alt="markx"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Tortor interdum condimentum nunc molestie quam lectus.
+                        </p>
+                      </li>
+                    </ul>
+                    <button
+                      class="plumaButton mt-5 bg-[#FEF6F5] text-primary w-full"
+                    >
+                      Get started
+                    </button>
+                  </div>
+
+                  <div class="border-3 border-primary rounded-lg p-5">
+                    <div class="flex items-center justify-between">
+                      <p class="text-[#B0766C] text-base mb-2">Team</p>
+                      <p
+                        class="px-2 py-0.5 text-base text-[#B0766C] rounded-full bg-[#FEF6F5]"
+                      >
+                        Most popular
+                      </p>
+                    </div>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮30,000
+                      </p>
+                      <p class="text-sm text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Улирлын турш платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 3 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Tortor interdum condimentum nunc molestie quam lectus.
+                        </p>
+                      </li>
+                    </ul>
+                    <button class="plumaPrimaryButton mt-5 w-full">
+                      Get started
+                    </button>
+                  </div>
+                  <div class="border border-gray-200 rounded-lg p-5">
+                    <p class="text-[#B0766C] text-base mb-2">Premium</p>
+                    <div
+                      class="flex flex-col xl:flex-row items-start xl:items-end gap-2"
+                    >
+                      <p class="text-[36px] leading-[44px] font-bold">
+                        ₮90,000
+                      </p>
+                      <p class="text-sm text-text-secondary mb-1">
+                        1 хэрэглэгч / сар
+                      </p>
+                    </div>
+                    <p class="text-[#6B7280] text-base mt-5">
+                      Жилийн турш платформд нийтлэгдэж байгаа нийт нийтлэл,
+                      агуулгыг унших эрх
+                    </p>
+                    <div class="h-px bg-gray-200 w-full my-5"></div>
+                    <ul class="space-y-3">
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/check.svg"
+                          alt="check"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 5 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <img
+                          src="../../assets/icons/markx.svg"
+                          alt="markx"
+                          class="size-6"
+                        />
+                        <p class="text-[#6B7280] text-base">
+                          Сар бүр 5 нийтлэл бэлэглэх эрх
+                        </p>
+                      </li>
+                    </ul>
+                    <button
+                      class="plumaButton mt-5 bg-[#FEF6F5] text-primary w-full"
+                    >
+                      Get started
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

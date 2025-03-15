@@ -1,4 +1,5 @@
 function initNews() {
+  initMain();
   document
     .getElementById("dropdownButton")
     .addEventListener("click", function () {

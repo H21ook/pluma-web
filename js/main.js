@@ -21,6 +21,4 @@ function initMain() {
       closeDrawer();
     }
   });
-
-  initNews();
 }
