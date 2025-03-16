@@ -1,23 +1,26 @@
-function initNews() {
+function init() {
   initMain();
-  document
-    .getElementById("dropdownButton")
-    .addEventListener("click", function () {
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      dropdownMenu.classList.toggle("hidden");
-    });
+  var dropdown = document.getElementById("dropdownButton");
+  if (dropdown) {
+    document
+      .getElementById("dropdownButton")
+      .addEventListener("click", function () {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("hidden");
+      });
 
-  // Dropdown-ийн гадна дарж хаах
-  document.addEventListener("click", function (event) {
-    const dropdownButton = document.getElementById("dropdownButton");
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    if (
-      !dropdownButton.contains(event.target) &&
-      !dropdownMenu.contains(event.target)
-    ) {
-      dropdownMenu.classList.add("hidden");
-    }
-  });
+    // Dropdown-ийн гадна дарж хаах
+    document.addEventListener("click", function (event) {
+      const dropdownButton = document.getElementById("dropdownButton");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      if (
+        !dropdownButton.contains(event.target) &&
+        !dropdownMenu.contains(event.target)
+      ) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+  }
 
   // Dialog нээх товч
   document.getElementById("openModal").addEventListener("click", function () {
