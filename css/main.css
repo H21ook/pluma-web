@@ -97,3 +97,35 @@
   background-color: #f8a698;
   color: white;
 }
+
+.plumaRadio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Сонгогдсон үед загвар */
+.plumaRadio:checked {
+  border-color: #f8a698;
+  background-color: #f8a698;
+}
+
+/* Сонгогдсон үед дотрын цэг */
+.plumaRadio:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+}
