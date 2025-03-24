@@ -220,56 +220,69 @@
           <img src="../../assets/icons/back.svg" alt="back" class="size-6" />
         </button>
 
-        <div data-active="tab1">
-          <div
-            id="tabButtons"
-            role="tabs"
-            class="border-b border-gray-200 w-full flex gap-6 max-w-full overflow-y-hidden"
-          >
-            <div
-              role="tabItem"
-              data-value="tab1"
-              onclick="changeTab(event)"
-              class="mb-[-1px] py-3 text-base font-semibold cursor-pointer whitespace-nowrap border-b-2 border-primary"
+        <div>
+          <div class="relative border-b-1 border-gray-200">
+            <button
+              id="categoryLeftButton"
+              class="absolute transition-all duration-200 top-1/2 -translate-y-1/2 left-0 flex items-center bg-white px-2 cursor-pointer size-10 invisible"
+              onclick="leftScroll()"
             >
-              General
-            </div>
-            <div
-              role="tabItem"
-              data-value="tab2"
-              onclick="changeTab(event)"
-              class="mb-[-1px] py-3 text-base font-semibold cursor-pointer whitespace-nowrap border-b-2 border-transparent text-text-secondary"
+              <img
+                src="../../assets/icons/arrow-right.svg"
+                class="size-4 rotate-180"
+                alt="arrow-left"
+              />
+            </button>
+            <button
+              id="categoryRightButton"
+              class="absolute transition-all duration-200 top-1/2 -translate-y-1/2 right-0 flex items-center bg-white px-2 cursor-pointer size-10 invisible"
+              onclick="rightScroll()"
             >
-              Billing
-            </div>
-            <div
-              role="tabItem"
-              data-value="tab3"
-              onclick="changeTab(event)"
-              class="mb-[-1px] py-3 text-base font-semibold cursor-pointer whitespace-nowrap border-b-2 border-transparent text-text-secondary"
+              <img
+                src="../../assets/icons/arrow-right.svg"
+                class="size-4"
+                alt="arrow-right"
+              />
+            </button>
+            <ul
+              class="flex gap-8 overflow-hidden mb-[-1px] items-center"
+              id="categoryList"
             >
-              Notifications
-            </div>
-            <div
-              role="tabItem"
-              data-value="tab4"
-              onclick="changeTab(event)"
-              class="mb-[-1px] py-3 text-base font-semibold cursor-pointer whitespace-nowrap border-b-2 border-transparent text-text-secondary"
-            >
-              Social Links
-            </div>
-            <div
-              role="tabItem"
-              data-value="tab5"
-              onclick="changeTab(event)"
-              class="mb-[-1px] py-3 text-base font-semibold cursor-pointer whitespace-nowrap border-b-2 border-transparent text-text-secondary"
-            >
-              Chanage Password
-            </div>
+              <li
+                class="categoryItem activeCategoryItem"
+                onclick="selectCategory(event)"
+              >
+                General
+              </li>
+              <li
+                class="categoryItem inactiveCategoryItem"
+                onclick="selectCategory(event)"
+              >
+                Billing
+              </li>
+              <li
+                class="categoryItem inactiveCategoryItem"
+                onclick="selectCategory(event)"
+              >
+                Notifications
+              </li>
+              <li
+                class="categoryItem inactiveCategoryItem"
+                onclick="selectCategory(event)"
+              >
+                Social Links
+              </li>
+              <li
+                class="categoryItem inactiveCategoryItem"
+                onclick="selectCategory(event)"
+              >
+                Change Password
+              </li>
+            </ul>
           </div>
-          <div id="tabContents" class="space-y-4">
-            <!-- General tab -->
-            <div data-value="tab1" role="tabContentItem" class="py-8 space-y-8">
+
+          <div id="tabs">
+            <div id="tab1" class="py-8 space-y-8">
               <h1 class="text-2xl font-bold">Edit profile</h1>
 
               <div
@@ -344,7 +357,7 @@
             </div>
 
             <!-- Billing tab -->
-            <div data-value="tab2" role="tabContentItem" class="hidden py-8">
+            <div id="tab2" class="hidden py-8">
               <div class="grid grid-cols-1 md:grid-cols-8 gap-x-5 gap-y-4">
                 <div class="md:col-span-5 space-y-6">
                   <div
@@ -476,7 +489,7 @@
             </div>
 
             <!-- Notifications tab -->
-            <div data-value="tab3" role="tabContentItem" class="hidden py-8">
+            <div id="tab3" class="hidden py-8">
               <div
                 class="md:rounded-xl md:shadow-md md:p-6 md:bg-white space-y-8"
               >
@@ -576,11 +589,7 @@
             </div>
 
             <!-- Socail links tab -->
-            <div
-              data-value="tab4"
-              role="tabContentItem"
-              class="py-8 space-y-8 hidden"
-            >
+            <div id="tab4" class="py-8 space-y-8 hidden">
               <p class="text-base font-semibold">Social links</p>
               <div class="space-y-6">
                 <!-- facebool, instagram, linkedin, twitter  -->
@@ -653,7 +662,7 @@
             </div>
 
             <!-- Change password tab -->
-            <div data-value="tab5" role="tabContentItem" class="hidden py-8">
+            <div id="tab5" class="hidden py-8">
               <div
                 class="md:rounded-xl md:shadow-md md:p-6 md:bg-white space-y-6"
               >
