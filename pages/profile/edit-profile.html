@@ -420,16 +420,114 @@
                         Payment method
                       </p>
 
-                      <button
-                        class="plumaPrimaryGhostButton flex items-center gap-2"
-                      >
-                        <img
-                          src="../../assets/icons/add.svg"
-                          alt="add"
-                          class="size-5"
-                        />
-                        Add new card
-                      </button>
+                      <div>
+                        <div
+                          id="modal"
+                          class="hidden fixed z-10 inset-0 bg-black/50 flex items-center justify-center no-scrollbar"
+                        >
+                          <div
+                            class="relative bg-white p-6 rounded-lg shadow-md w-full mx-4 md:w-xl"
+                          >
+                            <div
+                              class="w-full flex items-start justify-between"
+                            >
+                              <div class="space-y-2">
+                                <h3 class="font-semibold">
+                                  Credit / Debit Card
+                                </h3>
+                                <p class="text-text-secondary">
+                                  We support Mastercard, Visa, Discover and
+                                  Stripe.
+                                </p>
+                              </div>
+
+                              <div class="flex gap-2 items-center">
+                                <img
+                                  src="../../assets/icons/mastercard.svg"
+                                  alt="card"
+                                  class="h-6 w-9"
+                                />
+                                <img
+                                  src="../../assets/icons/visa.svg"
+                                  alt="card"
+                                  class="h-6 w-9"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="mt-8">
+                              <div class="relative">
+                                <label
+                                  for="cardNumber"
+                                  class="absolute -top-2 left-2 px-1 bg-white text-text-disabled"
+                                  >Банкны картын дугаар</label
+                                >
+                                <input
+                                  type="text"
+                                  id="cardNumber"
+                                  autocomplete="off"
+                                  class="plumaInput w-full !py-4 !text-base"
+                                  placeholder="**** **** **** 5678"
+                                />
+                              </div>
+                              <div class="grid grid-cols-2 gap-8 mt-8">
+                                <div class="relative">
+                                  <label
+                                    for="cardNumber"
+                                    class="absolute -top-2 left-2 px-1 bg-white text-text-disabled"
+                                    >Хүчинтэй хугацаа</label
+                                  >
+                                  <input
+                                    type="text"
+                                    id="cardNumber"
+                                    autocomplete="off"
+                                    class="plumaInput w-full !py-4 !text-base"
+                                    placeholder="Сар/жил"
+                                  />
+                                </div>
+                                <div class="relative">
+                                  <label
+                                    for="cardNumber"
+                                    class="absolute -top-2 left-2 px-1 bg-white text-text-disabled"
+                                    >CVV код</label
+                                  >
+                                  <input
+                                    type="text"
+                                    id="cardNumber"
+                                    autocomplete="off"
+                                    class="plumaInput w-full !py-4 !text-base"
+                                    placeholder="CVV"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              class="flex items-center justify-end gap-4 mt-8"
+                            >
+                              <button
+                                class="closeModal plumaButton border border-gray-200"
+                              >
+                                Болих
+                              </button>
+                              <button class="plumaPrimaryButton">
+                                Хадгалах
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          id="openModal"
+                          class="plumaPrimaryGhostButton flex items-center gap-2"
+                        >
+                          <img
+                            src="../../assets/icons/add.svg"
+                            alt="add"
+                            class="size-5"
+                          />
+                          Add new card
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
